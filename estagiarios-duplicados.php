@@ -275,7 +275,7 @@ session_start();
                                 }
                                 $i = 0;
                             }
-						
+					// table empresas for example.	
 					$mysqli = new mysqli("localhost","root","","jcibd");
 					// $mysqli = new mysqli("localhost","c28jovms","mjapVBN_Q9","c28jovms");
 					/* check connection */
