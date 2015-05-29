@@ -146,8 +146,8 @@ session_start();
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                            <a class="active" href="#"><i class="fa fa-users fa-fw"></i> Estagiários<span class="fa arrow"></span></a>
+                        <li  class="active">
+                            <a  href="#"><i class="fa fa-users fa-fw"></i> Estagiários<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="#">Pendentes</a>
@@ -244,103 +244,82 @@ session_start();
                         <h1 class="page-header">Estagiários Duplicados</h1>
                         
 						<?php
-
+						  // count duplicates
                           $queryDuplicate = $mysqli->query('SELECT `nifEstudante` , count( * ) as count 
                                                                 FROM estudante 
                                                                 WHERE `nifEstudante` <>0 
                                                                 GROUP BY `nifEstudante` 
                                                                 HAVING COUNT( * ) >1 ');
 
-                            $i = 0;
-								echo '<form action="duplicadosCheck.php" method="post">';
+								$i = 0;
+								// table head
+								echo '<form action="duplicadosCheck.php" method="post">'; // init form
 								echo '<table style="width:550px">';
 								echo '<tr class="spaceUnder">';
 								echo '<td>Candidaturas de estudantes duplicados: </td>';
 								echo '<td>';
-
 								echo '</td>';
 								echo '<td align="center"  >';
 								echo 'Indeferir';
 								echo '</td>';
 								echo '</tr>';
+								
                             while($rowDuplicate = $queryDuplicate->fetch_assoc()) {
-                                
+                                //openwindow configuration
+								$config = "'width=400,height=200,toolbar=yes, location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, sresizable=yes'";
+								$win = "'mywindow'";
+								
+
                                 $queryNif = $mysqli->query('SELECT *
                                                             FROM estudante
                                                             WHERE nifEstudante = '.$rowDuplicate['nifEstudante'].';');
-
+								//table body
+								echo '<tr  value="" type="checkbox">';
                                 while($rowNifEstudante = $queryNif->fetch_assoc())
                                 {
-
+									//Link for detail 
+									$link = "'empresa-detalhe?ins=".$rowNifEstudante['idEstudante']."'";
                                     $i++;
+									
                                     if($i > 1)
                                     {
-                                        echo $rowNifEstudante['nomeEstudante'].'<br />';
+										echo '<tr>';
+										echo '<td class="spaceLeft" style="padding-left:10px" ><a href="" onClick="window.open('.$link.','.$win.','.$config.')" >'.$rowNifEstudante['nomeEstudante'].'</a></td>';
+																		
+										echo '<td align="center" ">';
+										echo '</td>';
+										echo '<td align="center" >';
+										echo '<input name="empresaIndeferida[]" id="empresaIndeferida" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['nomeEstudante'].'" type="checkbox">';
+										echo '</td>';
+										echo '</tr>';
+                                        //echo $rowNifEstudante['nomeEstudante'].'<br />';
                                     }
                                     else
                                     {
-                                        echo '<b>'.$rowNifEstudante['nomeEstudante'].'</b><br />';
-                                    }
-
-                                    
+										echo '<tr>';
+										echo '<td class="spaceLeft" style="padding-left:10px" ><a href="" onClick="window.open('.$link.','.$win.','.$config.')" ><b>'.$rowNifEstudante['nomeEstudante'].'</b></a></td>';
+																		
+										echo '<td align="center" ">';
+										echo '</td>';
+										echo '<td align="center" >';
+										echo '<input name="empresaIndeferida[]" id="empresaIndeferida" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['nomeEstudante'].'" type="checkbox">';
+										echo '</td>';
+										echo '</tr>';
+										// echo '<b>'.$rowNifEstudante['nomeEstudante'].'</b><br />';
+                                    }                                  
                                 }
                                 $i = 0;
                             }
-					// table empresas for example.	
-					$mysqli = new mysqli("localhost","root","","jcibd");
-					// $mysqli = new mysqli("localhost","c28jovms","mjapVBN_Q9","c28jovms");
-					/* check connection */
-					if (mysqli_connect_errno()) {
-						printf("Error de conexiÃ³n: %s\n", mysqli_connect_error());
-						exit();
-					}
-											
-
-							$results = $mysqli->query('SELECT * FROM empresa where pendente=1;');
-							$count = $mysqli->query('SELECT COUNT(*) as total FROM empresa where pendente=1;');
-							while($row = $count->fetch_assoc()) {
-								$con = $row['total'];
-							}
-							
-							echo '<form action="empresasCheck.php" method="post">';
-							echo '<table style="width:550px">';
-								echo '<tr class="spaceUnder">';
-								echo '<td>Candidaturas de empresas em estado pendente ('.$con.')</td>';
-								echo '<td>';
-
-								echo '</td>';
-								echo '<td align="center"  >';
-								echo 'Indeferir';
-								echo '</td>';
-								echo '</tr>';
-							$i = 1;
-							while($row = $results->fetch_assoc()) {
-								$i = $i + 1;
-								$config = "'width=400,height=200,toolbar=yes, location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, sresizable=yes'";
-								$win = "'mywindow'";
-								$link = "'empresa-detalhe?ins=".$row['idEmpresa']."'";
-								echo '<tr  value="" type="checkbox">';
-								// echo '<td class="spaceLeft" style="padding-left:10px" ><a target="_blank" href="empresa-detalhe?ins='.$row['idEmpresa'].'"">'.$row['denominacao'].'</a></td>';
-								echo '<td class="spaceLeft" style="padding-left:10px" ><a href="" onClick="window.open('.$link.','.$win.','.$config.')" >'.$row['denominacao'].'</a></td>';
-								echo '<td align="center" ">';
-
-								echo '</td>';
-								echo '<td align="center" >';
-								echo '<input name="empresaIndeferida[]" id="empresaIndeferida" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$row['idEmpresa'].'" type="checkbox">';
-								echo '</td>';
-								echo '</tr>';
-
-							} 
-							echo '</table>';
-							echo '<p>';
-							echo '<br />';
-
-							echo '<button type="submit" value="Deferir/Indeferir Seleccionados" >Deferir/Indeferir Seleccionados</button>';
-							echo '<br />';
-							echo '<br />';
-							echo '</p>';
-							echo '</form>';
-?>
+								echo '</table>'; // end table
+								echo '<p>';
+								echo '<br />';
+								// action button 
+								echo '<button type="submit" value="Deferir/Indeferir Seleccionados" >Deferir/Indeferir Seleccionados</button>';
+								echo '<br />';
+								echo '<br />';
+								echo '</p>';
+								echo '</form>';// end form							
+						?>
                     </div>
 					
                     <!-- /.col-lg-12 -->
