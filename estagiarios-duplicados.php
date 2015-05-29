@@ -252,6 +252,17 @@ session_start();
                                                                 HAVING COUNT( * ) >1 ');
 
                             $i = 0;
+								echo '<form action="duplicadosCheck.php" method="post">';
+								echo '<table style="width:550px">';
+								echo '<tr class="spaceUnder">';
+								echo '<td>Candidaturas de estudantes duplicados: </td>';
+								echo '<td>';
+
+								echo '</td>';
+								echo '<td align="center"  >';
+								echo 'Indeferir';
+								echo '</td>';
+								echo '</tr>';
                             while($rowDuplicate = $queryDuplicate->fetch_assoc()) {
                                 
                                 $queryNif = $mysqli->query('SELECT *
