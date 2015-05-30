@@ -251,6 +251,7 @@ session_start();
                                                                 and `eliminado`=0 AND `duplicado`=0
                                                                 GROUP BY `nifEstudante` 
                                                                 HAVING COUNT( * ) >1');
+																
 
 								$i = 0;
 								// table head
