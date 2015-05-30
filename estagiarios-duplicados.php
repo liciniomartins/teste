@@ -244,16 +244,17 @@ session_start();
                         <h1 class="page-header">Estagiários Duplicados</h1>
                         
 						<?php
-						  // count duplicates
+						  // add count duplicates query
                           $queryDuplicate = $mysqli->query('SELECT `nifEstudante` , count( * ) as count 
                                                                 FROM estudante 
                                                                 WHERE `nifEstudante` <>0 
+                                                                and `eliminado`=0 AND `duplicado`=0
                                                                 GROUP BY `nifEstudante` 
-                                                                HAVING COUNT( * ) >1 ');
+                                                                HAVING COUNT( * ) >1');
 
 								$i = 0;
 								// table head
-								echo '<form action="duplicadosCheck.php" method="post">'; // init form
+								echo '<form action="gerir-estagiarios-duplicados.php" method="post">'; // init form
 								echo '<table style="width:550px">';
 								echo '<tr class="spaceUnder">';
 								echo '<td>Candidaturas de estudantes duplicados: </td>';
@@ -269,16 +270,17 @@ session_start();
 								$config = "'width=400,height=200,toolbar=yes, location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, sresizable=yes'";
 								$win = "'mywindow'";
 								
-
-                                $queryNif = $mysqli->query('SELECT *
-                                                            FROM estudante
-                                                            WHERE nifEstudante = '.$rowDuplicate['nifEstudante'].';');
+								$query = 'SELECT *
+                                          FROM estudante
+                                          WHERE nifEstudante = '.$rowDuplicate['nifEstudante'].' AND  eliminado=0 AND duplicado=0;';
+                                $queryNif = $mysqli->query($query);
+								
 								//table body
 								echo '<tr  value="" type="checkbox">';
                                 while($rowNifEstudante = $queryNif->fetch_assoc())
                                 {
 									//Link for detail 
-									$link = "'empresa-detalhe?ins=".$rowNifEstudante['idEstudante']."'";
+									$link = "'estagiario-detalhe.php?ins=".$rowNifEstudante['idEstudante']."'";
                                     $i++;
 									
                                     if($i > 1)
@@ -289,7 +291,7 @@ session_start();
 										echo '<td align="center" ">';
 										echo '</td>';
 										echo '<td align="center" >';
-										echo '<input name="empresaIndeferida[]" id="empresaIndeferida" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['nomeEstudante'].'" type="checkbox">';
+										echo '<input name="estudanteDuplicado[]" id="estudanteDuplicado" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['idEstudante'].'" type="checkbox">';
 										echo '</td>';
 										echo '</tr>';
                                         //echo $rowNifEstudante['nomeEstudante'].'<br />';
@@ -302,7 +304,7 @@ session_start();
 										echo '<td align="center" ">';
 										echo '</td>';
 										echo '<td align="center" >';
-										echo '<input name="empresaIndeferida[]" id="empresaIndeferida" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['nomeEstudante'].'" type="checkbox">';
+										echo '<input name="estudanteDuplicado[]" id="estudanteDuplicado" onmouseover="LightRed(this)" onmouseout="Unhighlight(this)" value="'.$rowNifEstudante['nomeEstudante'].'" type="checkbox">';
 										echo '</td>';
 										echo '</tr>';
 										// echo '<b>'.$rowNifEstudante['nomeEstudante'].'</b><br />';

@@ -248,9 +248,33 @@ session_start();
                         <h1 class="page-header">Gerir Estagiários Duplicados</h1>
                         
 					<?php 
+							//add information when no selection.
 							if(!isset($_POST['estudanteDuplicado']))
 							{
-								echo '<p>Não foi selecionada nenhum registo duplicado</p>';
+								echo '<p>Não foi selecionado nenhum registo duplicado</p>';
+								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Duplicados" onClick="location.replace(document.referrer);" ></p>';
+							}
+							//Flag of the change in the database, eliminating intern.							
+							else if(isset($_POST['estudanteDuplicado'])) 
+							{
+								$checkBox = $_POST['estudanteDuplicado'];
+								for ($i=0; $i<sizeof($checkBox); $i++)
+								{
+									$query = "UPDATE estudante SET pendente=0 , eliminado=1, duplicado=1 WHERE idEstudante=";
+									/*
+									
+									MISSING RECORD UPDATE (CHANGE) TO THE DATABASE
+									
+									*/
+									
+									$query .=  $checkBox[$i] . ";";	
+									
+									if($mysqli->query($query));
+									{	
+										
+										echo '<p>A candidatura nº'.$checkBox[$i].' foi eliminada.</p>';
+									}
+								}
 								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Duplicados" onClick="location.replace(document.referrer);" ></p>';
 							}
 					?>
