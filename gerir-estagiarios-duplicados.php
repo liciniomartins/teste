@@ -3,8 +3,8 @@
 session_start();
 
  
-if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
-	header("Location: ../index.php");
+// if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
+	// header("Location: ../index.php");
 }
 
 ?>
@@ -119,18 +119,18 @@ if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
 
             <ul class="nav navbar-top-links navbar-right">
 			<?php
-					// $mysqli = new mysqli("localhost","root","","jcibd");
-					$mysqli = new mysqli("localhost","c28jovms","mjapVBN_Q9","c28jovms");
+					$mysqli = new mysqli("localhost","root","","jcibd");
+					// $mysqli = new mysqli("localhost","c28jovms","mjapVBN_Q9","c28jovms");
 					/* check connection */
 					if (mysqli_connect_errno()) {
 						printf("Error de ligação: %s\n", mysqli_connect_error());
 						exit();
 					}
 											
-							$count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
-							while($row = $count1->fetch_assoc()) {
-								echo $row['nome'];
-							}		
+							// $count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
+							// while($row = $count1->fetch_assoc()) {
+								// echo $row['nome'];
+							// }		
 							
 			?>
                 <li class="dropdown">
