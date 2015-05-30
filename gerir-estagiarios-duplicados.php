@@ -281,66 +281,7 @@ session_start();
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/sb-admin-2.js"></script>
 
-    <script type="text/javascript">
-    $(document).ready(function(){
-        search();
-        startListeners();
-    });
-
-    function startListeners(){
-        $('.btnEliminar').on('click',function(){
-            eliminar();
-        });
-    }
-
-
-    function search(){
-
-        $.ajax({
-            url:'php/retrieveEstagiariosDuplicados.php',
-            type:'POST',
-            dataType:'json',
-            success:function(data){
-                //console.log(data);
-                if(data.results.length < 1){
-                    alert('Pesquisa sem resultados');
-                } else {
-                    populateResults(data.results);
-                }
-            }
-        });
-    }
-
-    function populateResults(results){
-        $('.listaResultados').html('');
-        for(var i in results){
-            $('.listaResultados').append('\
-                <div><a href="estagiario-detalhe.php?ins='+results[i].idEstudante+'">'+results[i].nomeEstudante+'</a><input type="checkbox" class="markerdToDelete" value="'+results[i].idEstudante+'"></div>\
-            ');
-        }
-    }
-
-    function eliminar(){
-        var values = $('input:checkbox:checked.markerdToDelete').map(function () {
-          return this.value;
-        }).get();
-
-        console.log(values);
-
-        $.ajax({
-            url:'php/setEliminados.php',
-            type:'POST',
-            dataType:'json',
-            data : {'arrayEscolhidos': values.join()},
-            success: function(data){
-                console.log(data);
-                search();
-            }
-        });
-    }
-
-    </script>
-
+ 
 </body>
 
 </html>
