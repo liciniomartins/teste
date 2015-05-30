@@ -5,7 +5,7 @@ session_start();
  
 // if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
 	// header("Location: ../index.php");
-}
+//}
 
 ?>
 <html lang="en">
@@ -150,8 +150,8 @@ session_start();
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="#"><i class="fa fa-users fa-fw"></i> Estagiários<span class="fa arrow"></span></a>
+                        <li  class="active">
+                            <a  href="#"><i class="fa fa-users fa-fw"></i> Estagiários<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="#">Pendentes</a>
@@ -175,7 +175,7 @@ session_start();
                                     <a href="#">Eliminados</a>
                                 </li>								
 								<li>
-                                    <a href="#">Duplicados</a>
+                                    <a class="active" href="#">Duplicados</a>
                                 </li>								
 								<li>
                                     <a href="#">Lista Negra</a>
@@ -183,7 +183,7 @@ session_start();
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="#"><i class="fa fa-briefcase fa-fw"></i> Empresas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -247,15 +247,9 @@ session_start();
                     <div class="col-lg-12" >
                         <h1 class="page-header">Gerir Estagiários Duplicados</h1>
                         
-                        <button class="btnEliminar">Eliminar Selecionados</button>
-
-                        <div class="listaResultados">
-                            
-                        </div>
-                        
-                        <button class="btnEliminar">Eliminar Selecionados</button>
-						
-
+					<?php 
+					
+					?>
                     </div>
 					
                     <!-- /.col-lg-12 -->
