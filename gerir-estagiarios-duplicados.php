@@ -248,7 +248,11 @@ session_start();
                         <h1 class="page-header">Gerir Estagiários Duplicados</h1>
                         
 					<?php 
-					
+							if(!isset($_POST['estudanteDuplicado']))
+							{
+								echo '<p>Não foi selecionada nenhum registo duplicado</p>';
+								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Duplicados" onClick="location.replace(document.referrer);" ></p>';
+							}
 					?>
                     </div>
 					
