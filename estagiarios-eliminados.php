@@ -148,7 +148,7 @@ session_start();
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
-                        <li>
+                        <li  class="active">
                             <a href="#"><i class="fa fa-users fa-fw"></i> Estagiários<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -170,7 +170,7 @@ session_start();
                                     <a href="#">Indeferidos</a>
                                 </li>								
 								<li>
-                                    <a href="#">Eliminados</a>
+                                    <a href="#"  class="active">Eliminados</a>
                                 </li>								
 								<li>
                                     <a href="#">Duplicados</a>
@@ -181,7 +181,7 @@ session_start();
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="#"><i class="fa fa-briefcase fa-fw"></i> Empresas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
@@ -245,7 +245,18 @@ session_start();
                     <div class="col-lg-12" >
                         <h1 class="page-header">Estagiários Eliminados</h1>
                         
-
+					<?php 
+					
+					// removed query
+                     $queryRemoved = $mysqli->query('select * from estudante where eliminado=1');
+																
+                           
+                            while($rowRemoved = $queryRemoved->fetch_assoc()) {
+                                                              
+                                        echo $rowRemoved['nomeEstudante'].'<br />';
+                            }
+                            
+					?>
 						
 
                     </div>
