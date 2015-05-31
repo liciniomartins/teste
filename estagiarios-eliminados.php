@@ -170,10 +170,10 @@ session_start();
                                     <a href="#">Indeferidos</a>
                                 </li>								
 								<li>
-                                    <a href="#"  class="active">Eliminados</a>
+                                    <a class="active" href="../pagina/estagiarios-eliminados.php" >Eliminados</a>
                                 </li>								
 								<li>
-                                    <a href="#">Duplicados</a>
+                                    <a href="../pagina/estagiarios-duplicados.php" >Duplicados</a>
                                 </li>								
 								<li>
                                     <a href="#">Lista Negra</a>
@@ -248,17 +248,56 @@ session_start();
 					<?php 
 					
 					// removed query
-                     $queryRemoved = $mysqli->query('select * from estudante where eliminado=1');
-																
-                           
-                            while($rowRemoved = $queryRemoved->fetch_assoc()) {
-                                                              
-                                        echo $rowRemoved['nomeEstudante'].'<br />';
-                            }
-                            
-					?>
-						
+                     $queryRemoved = $mysqli->query('SELECT * FROM estudante WHERE eliminado=1;');
 
+								// table head
+								echo '<form action="gerir-estagiarios-duplicados.php" method="post">'; // init form
+								echo '<table style="width:550px">';
+								echo '<tr class="spaceUnder">';
+								echo '<td>Candidaturas de estagiários eliminadas: </td>';
+								echo '<td>';
+								echo '</td>';
+								echo '<td align="center"  >';
+								echo '';
+								echo '</td>';
+								echo '</tr>';
+								
+                            while($rowRemoved = $queryRemoved->fetch_assoc()) {
+                                //openwindow configuration
+								$config = "'width=400,height=200,toolbar=yes, location=yes,directories=yes,status=yes,menubar=yes,scrollbars=yes,copyhistory=yes, sresizable=yes'";
+								$win = "'mywindow'";
+								
+								$query = 'SELECT * FROM estudante WHERE eliminado=1;';
+                                $queryNif = $mysqli->query($query);
+								
+								//table body
+								echo '<tr  value="" type="checkbox">';
+									//Link for detail 
+									$link = "'estagiario-detalhe.php?ins=".$rowRemoved['idEstudante']."'";
+									//Link for removed
+									$linkRemoved = "'gerir-estagiarios-eliminados.php?ins=".$rowRemoved['idEstudante']."'";
+									
+									
+										echo '<tr>';
+										echo '<td class="spaceLeft" style="padding-left:10px" ><a href="" onClick="window.open('.$link.','.$win.','.$config.')" >'.$rowRemoved['nomeEstudante'].'</a></td>';
+																		
+										echo '<td align="center" ">';
+										echo '</td>';
+										echo '<td align="center" style="padding-top:10px;" >';
+										echo '<input TYPE="button" VALUE="Recuperar" onclick="window.location.href='.$linkRemoved.'">';
+										echo '</td>';
+										echo '</tr>';
+                                        //echo $rowNifEstudante['nomeEstudante'].'<br />';
+                                                                     
+ 
+								}
+								echo '</table>'; // end table
+								echo '<p>';
+								echo '<br />';
+								echo '<br />';
+								echo '</p>';
+								echo '</form>';// end form		
+					?>			
                     </div>
 					
                     <!-- /.col-lg-12 -->

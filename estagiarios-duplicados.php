@@ -6,7 +6,7 @@ session_start();
 // if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
 // 	header("Location: ../index.php");
 // }
-ç
+
 ?>
 <html lang="en">
 
@@ -168,10 +168,10 @@ session_start();
                                     <a href="#">Indeferidos</a>
                                 </li>								
 								<li>
-                                    <a href="#">Eliminados</a>
+                                    <a href="../pagina/estagiarios-eliminados.php" >Eliminados</a>
                                 </li>								
 								<li>
-                                    <a class="active" href="#">Duplicados</a>
+                                    <a class="active"  href="../pagina/estagiarios-duplicados.php">Duplicados</a>
                                 </li>								
 								<li>
                                     <a href="#">Lista Negra</a>
@@ -317,7 +317,7 @@ session_start();
 								echo '<p>';
 								echo '<br />';
 								// action button 
-								echo '<button type="submit" value="Deferir/Indeferir Seleccionados" >Deferir/Indeferir Seleccionados</button>';
+								echo '<button type="submit" value="Eliminar Seleccionados" >Eliminar Seleccionados</button>';
 								echo '<br />';
 								echo '<br />';
 								echo '</p>';

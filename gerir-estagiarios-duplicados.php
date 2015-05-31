@@ -172,11 +172,11 @@ session_start();
                                     <a href="#">Indeferidos</a>
                                 </li>								
 								<li>
-                                    <a href="#">Eliminados</a>
+                                    <a href="../pagina/estagiarios-eliminados.php" >Eliminados</a>
                                 </li>								
 								<li>
-                                    <a class="active" href="#">Duplicados</a>
-                                </li>								
+                                    <a class="active"  href="../pagina/estagiarios-duplicados.php">Duplicados</a>
+                                </li>									
 								<li>
                                     <a href="#">Lista Negra</a>
                                 </li>
