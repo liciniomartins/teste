@@ -118,7 +118,7 @@ session_start();
             <ul class="nav navbar-top-links navbar-right">
 			<?php
 					$mysqli = new mysqli("localhost","root","","jcibd");
-					// $mysqli = new mysqli("localhost","c28jovms","mjapVBN_Q9","c28jovms");
+					// $mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
 					/* check connection */
 					if (mysqli_connect_errno()) {
 						printf("Error de ligação: %s\n", mysqli_connect_error());
@@ -176,7 +176,7 @@ session_start();
                                     <a href="../pagina/estagiarios-duplicados.php" >Duplicados</a>
                                 </li>								
 								<li>
-                                    <a href="#">Lista Negra</a>
+                                    <a href="../pagina/estagiarios-listaNegra.php" >Lista Negra</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -250,7 +250,9 @@ session_start();
 					// removed query
                      $queryRemoved = $mysqli->query('SELECT * FROM estudante WHERE eliminado=1;');
 
-								// table head
+					if ($queryRemoved->num_rows){ 
+					 
+														// table head
 								echo '<form action="gerir-estagiarios-duplicados.php" method="post">'; // init form
 								echo '<table style="width:550px">';
 								echo '<tr class="spaceUnder">';
@@ -296,7 +298,10 @@ session_start();
 								echo '<br />';
 								echo '<br />';
 								echo '</p>';
-								echo '</form>';// end form		
+								echo '</form>';// end form	
+					}else{ 
+						echo '<p>Não existe estagiários em estado eliminado.</p>';
+					}								
 					?>			
                     </div>
 					
