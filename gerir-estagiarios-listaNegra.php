@@ -1,13 +1,13 @@
-<!DOCTYPE html>
 <?php
 session_start();
 
  
-// if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
-	// header("Location: ../index.php");
-//}
+if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
+	header("Location: ../index.php");
+}
 
 ?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -119,18 +119,18 @@ session_start();
 
             <ul class="nav navbar-top-links navbar-right">
 			<?php
-					$mysqli = new mysqli("localhost","root","","jcibd");
-					// $mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
+					// $mysqli = new mysqli("localhost","root","","jcibd");
+					$mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
 					/* check connection */
 					if (mysqli_connect_errno()) {
 						printf("Error de ligação: %s\n", mysqli_connect_error());
 						exit();
 					}
 											
-							// $count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
-							// while($row = $count1->fetch_assoc()) {
-								// echo $row['nome'];
-							// }		
+							$count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
+							while($row = $count1->fetch_assoc()) {
+								echo $row['nome'];
+							}		
 							
 			?>
                 <li class="dropdown">
@@ -245,27 +245,55 @@ session_start();
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12" >
-                        <h1 class="page-header">Gerir Estagiários Eliminados</h1>
-						<?php 
-						
-							$ins = $_GET['ins'];
-							
-							$query = "UPDATE estudante SET pendente=1 , listanegra=0 WHERE idEstudante=";
-							/*
-							
-							MISSING RECORD UPDATE (CHANGE) TO THE DATABASE
-							
-							*/
-							
-							$query .=  $ins . ";";	
-							
-							if($mysqli->query($query));
-							{	
+                        <h1 class="page-header">Gerir Estagiários Lista Negra</h1>
+						<?php
+						echo '<form action="gerir-estagiarios-duplicados.php" method="post">';
+							if(isset($_GET['ins']) && isset($_GET['op']))
+							{
+								$ins = $_GET['ins'];
+								$option = $_GET['op'];
 								
-								echo '<p>A candidatura nº'.$ins.' foi recuperada para o estado de pendente.</p>';
+								if($option == 1)
+								{
+									$query = "UPDATE estudante SET pendente=0, deferido=0, indeferido=0, 
+											  preselecionado=0, selecionado=0, eliminado=0, duplicado=0, listanegra=1 WHERE idEstudante=";
+
+									$insertHistory ='INSERT INTO `jcibd`.`pejene_historico_estudante` (`id`, `idEstudante`, `idpasso`, `data`) 
+													VALUES (NULL, "'.$ins.'", "4", "'.date("Y-m-d H:i:s", time()-1*3600).'");';
+								
+									$query .=  $ins . ";";	
+									
+									if($mysqli->query($query) && $mysqli->query($insertHistory));
+									{	
+		
+									}								
+								}
+							
+								if($option == 2)
+								{
+									$query = "UPDATE estudante SET pendente=1 , listanegra=0 WHERE idEstudante=";
+
+									$insertHistory ='INSERT INTO `jcibd`.`pejene_historico_estudante` (`id`, `idEstudante`, `idpasso`, `data`) 
+													VALUES (NULL, "'.$ins.'", "5", "'.date("Y-m-d H:i:s", time()-1*3600).'");';
+								
+									$query .=  $ins . ";";	
+									
+									if($mysqli->query($query) && $mysqli->query($insertHistory));
+									{	
+										
+										echo '<p>A candidatura nº'.$ins.' foi recuperada para o estado de pendente.</p>';
+										echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Lista Negra" onClick="location.replace(document.referrer);" ></p>';
+									}								
+								}
+
+								
 							}
-							echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Lista Negra" onClick="location.replace(document.referrer);" ></p>';
-						
+							else
+							{
+								$link ="'estagiarios-listaNegra.php'";
+								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Lista Negra" onClick="location.href='.$link.'"  ></p>';
+							}
+
 						?>
                     </div>
 					

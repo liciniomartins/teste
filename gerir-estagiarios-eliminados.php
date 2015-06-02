@@ -3,9 +3,9 @@
 session_start();
 
  
-// if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
-	// header("Location: ../index.php");
-//}
+if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
+	header("Location: ../index.php");
+}
 
 ?>
 <html lang="en">
@@ -119,18 +119,18 @@ session_start();
 
             <ul class="nav navbar-top-links navbar-right">
 			<?php
-					$mysqli = new mysqli("localhost","root","","jcibd");
-					// $mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
+					// $mysqli = new mysqli("localhost","root","","jcibd");
+					$mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
 					/* check connection */
 					if (mysqli_connect_errno()) {
 						printf("Error de ligação: %s\n", mysqli_connect_error());
 						exit();
 					}
 											
-							// $count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
-							// while($row = $count1->fetch_assoc()) {
-								// echo $row['nome'];
-							// }		
+							$count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
+							while($row = $count1->fetch_assoc()) {
+								echo $row['nome'];
+							}		
 							
 			?>
                 <li class="dropdown">
@@ -248,24 +248,32 @@ session_start();
                         <h1 class="page-header">Gerir Estagiários Eliminados</h1>
 						<?php 
 						
-							$ins = $_GET['ins'];
-							
-							$query = "UPDATE estudante SET pendente=1 , eliminado=0, duplicado=0 WHERE idEstudante=";
-							/*
-							
-							MISSING RECORD UPDATE (CHANGE) TO THE DATABASE
-							
-							*/
-							
-							$query .=  $ins . ";";	
-							
-							if($mysqli->query($query));
-							{	
+							if(isset($_GET['ins']))
+							{
+								$ins = $_GET['ins'];
 								
-								echo '<p>A candidatura nº'.$ins.' foi recuperada para o estádo de pendente.</p>';
+								$query = "UPDATE estudante SET pendente=1 , eliminado=0, duplicado=0 WHERE idEstudante=";
+								
+								$insertHistory ='INSERT INTO `jcibd`.`pejene_historico_estudante` (`id`, `idEstudante`, `idpasso`, `data`) 
+												VALUES (NULL, "'.$ins.'", "5", "'.date("Y-m-d H:i:s", time()-1*3600).'");';
+								
+								$query .=  $ins . ";";	
+								
+								if($mysqli->query($query) && $mysqli->query($insertHistory));
+								{	
+									
+									echo '<p>A candidatura nº'.$ins.' foi recuperada para o estádo de pendente.</p>';
+								}
+								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Eliminados" onClick="location.replace(document.referrer);" ></p>';
+							
 							}
-							echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Eliminados" onClick="location.replace(document.referrer);" ></p>';
-						
+							else
+							{
+								echo '<p>Não foi selecionada nenhuma candidatura.</p>';
+								$link ="'estagiarios-eliminados.php'";
+								echo '<p><input TYPE="button" VALUE="Voltar para lista Estagiários Eliminados" onClick="location.href='.$link.'"  ></p>';
+							}
+
 						?>
                     </div>
 					

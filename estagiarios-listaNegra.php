@@ -3,9 +3,9 @@
 session_start();
 
  
-// if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
-	// header("Location: ../index.php");
-// }
+if (!isset($_SESSION["pass"]) && !isset($_SESSION["user"])) {
+	header("Location: ../index.php");
+}
 
 ?>
 <html lang="en">
@@ -117,18 +117,18 @@ session_start();
 
             <ul class="nav navbar-top-links navbar-right">
 			<?php
-					$mysqli = new mysqli("localhost","root","","jcibd");
-					// $mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
+					// $mysqli = new mysqli("localhost","root","","jcibd");
+					$mysqli = new mysqli("localhost","c27cartao2","t_0PlqOhWyOG1","c28jovms");
 					/* check connection */
 					if (mysqli_connect_errno()) {
 						printf("Error de ligação: %s\n", mysqli_connect_error());
 						exit();
 					}
 											
-							// $count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
-							// while($row = $count1->fetch_assoc()) {
-								// echo $row['nome'];
-							// }		
+							$count1 = $mysqli->query('SELECT * FROM utilizadorpejene WHERE pass like"'.$_SESSION["pass"].'";');
+							while($row = $count1->fetch_assoc()) {
+								echo $row['nome'];
+							}		
 							
 			?>
                 <li class="dropdown">
@@ -248,7 +248,7 @@ session_start();
                         
 					<?php 
 					
-					// removed query
+					// BLACKLIST query
                      $queryBlackList = $mysqli->query('SELECT * FROM estudante WHERE listanegra=1;');
 
 					if ($queryBlackList->num_rows){ 
@@ -276,7 +276,7 @@ session_start();
 									//Link for detail 
 									$link = "'estagiario-detalhe.php?ins=".$rowBlackList['idEstudante']."'";
 									//Link for removed
-									$linkBlackList = "'gerir-estagiarios-listaNegra.php?ins=".$rowBlackList['idEstudante']."'";
+									$linkBlackList = "'gerir-estagiarios-listaNegra.php?ins=".$rowBlackList['idEstudante']."&op=2'";
 									
 									
 										echo '<tr>';
